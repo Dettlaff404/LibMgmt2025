@@ -1,7 +1,15 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
-import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/api/v1/books")
 public class BookController {
-    private String bookId;
+    @GetMapping("health")
+    public String healthCheck(){
+        return "Book Controller is Working";
+    }
+
 }
