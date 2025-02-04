@@ -21,4 +21,10 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteBook(@RequestParam ("bookIdKey") String bookIdValue){
+        System.out.println(bookIdValue);
+        return ResponseEntity.noContent().build();
+    }
+
 }
