@@ -43,6 +43,7 @@ public class StaffController {
         return ResponseEntity.ok(new StaffDTO());
     }
 
+    @GetMapping
     public ResponseEntity<List<StaffDTO>> getAllStaffMembers() {
         return ResponseEntity.ok(new ArrayList<>());
     }
