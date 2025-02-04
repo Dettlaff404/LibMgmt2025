@@ -1,7 +1,6 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
 import lk.ijse.cmjd108.LibMgmt2025.dto.MemberDTO;
-import lk.ijse.cmjd108.LibMgmt2025.dto.StaffDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
