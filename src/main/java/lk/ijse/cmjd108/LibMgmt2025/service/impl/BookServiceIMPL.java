@@ -9,7 +9,7 @@ import java.util.List;
 public class BookServiceIMPL implements BookService {
     @Override
     public void addBook(BookDTO bookDTO) {
-
+        System.out.println("Add Book from service layer "+bookDTO);
     }
 
     @Override
