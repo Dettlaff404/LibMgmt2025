@@ -1,7 +1,9 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
 import lk.ijse.cmjd108.LibMgmt2025.dto.BookDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +16,9 @@ public class BookController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public BookDTO addBook(@RequestBody BookDTO bookDTO){
+    public ResponseEntity<Void> addBook(@RequestBody BookDTO bookDTO){
         System.out.println(bookDTO);
-        return bookDTO;
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }
