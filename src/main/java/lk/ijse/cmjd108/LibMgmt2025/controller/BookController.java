@@ -13,10 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/books")
-public class BookController {
+public class  BookController {
+
+    private final BookService bookService;
 
     @Autowired
-    private BookService bookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping("health")
     public String healthCheck(){
