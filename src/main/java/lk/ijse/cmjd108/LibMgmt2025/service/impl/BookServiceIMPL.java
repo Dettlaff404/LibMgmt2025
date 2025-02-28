@@ -3,7 +3,6 @@ package lk.ijse.cmjd108.LibMgmt2025.service.impl;
 import lk.ijse.cmjd108.LibMgmt2025.dto.BookDTO;
 import lk.ijse.cmjd108.LibMgmt2025.service.BookService;
 import lk.ijse.cmjd108.LibMgmt2025.util.UtilData;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

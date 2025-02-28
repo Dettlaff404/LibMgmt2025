@@ -2,6 +2,7 @@ package lk.ijse.cmjd108.LibMgmt2025.service.impl;
 
 import lk.ijse.cmjd108.LibMgmt2025.dto.LendingDTO;
 import lk.ijse.cmjd108.LibMgmt2025.service.LendingService;
+import lk.ijse.cmjd108.LibMgmt2025.util.UtilData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ import java.util.List;
 public class LendingServiceIMPL implements LendingService {
     @Override
     public void addLendingData(LendingDTO lendingDTO) {
-
+        lendingDTO.setLendingId(UtilData.generateLendingId());
+        System.out.println(lendingDTO);
     }
 
     @Override
