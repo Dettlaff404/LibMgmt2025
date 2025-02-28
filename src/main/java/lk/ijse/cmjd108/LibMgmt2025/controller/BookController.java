@@ -16,11 +16,6 @@ public class  BookController {
 
     private final BookService bookService;
 
-//    @Autowired
-//    public BookController(BookService bookService) {
-//        this.bookService = bookService;
-//    }
-
     @GetMapping("health")
     public String healthCheck(){
         return "Book Controller is Working";
