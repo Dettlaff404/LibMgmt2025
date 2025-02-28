@@ -13,6 +13,7 @@ public class StaffServiceIMPL implements StaffService {
     @Override
     public void saveStaffMember(StaffDTO staffDTO) {
         staffDTO.setStaffId(UtilData.generateStaffId());
+        staffDTO.setLastUpdate(String.valueOf(UtilData.generateTodayDate()));
         System.out.println(staffDTO);
     }
 
@@ -34,6 +35,7 @@ public class StaffServiceIMPL implements StaffService {
                 "Doe",
                 "john.doe@gmail.com",
                 "2022-01-01",
+                "2022-01-01",
                 "0712345678",
                 Role.LIBRARIAN
         );
@@ -48,6 +50,7 @@ public class StaffServiceIMPL implements StaffService {
                 "Doe",
                 "john.doe@gmail.com",
                 "2022-01-01",
+                "2022-01-01",
                 "0712345678",
                 Role.LIBRARIAN
         ));
@@ -56,6 +59,7 @@ public class StaffServiceIMPL implements StaffService {
                 "Jane",
                 "Doe",
                 "jane.doe@gmail.com",
+                "2022-02-01",
                 "2022-02-01",
                 "0712345679",
                 Role.OFFICER
@@ -66,6 +70,7 @@ public class StaffServiceIMPL implements StaffService {
                 "Perera",
                 "kamal.perera@gmail.com",
                 "2022-03-01",
+                "2022-03-01",
                 "0712345680",
                 Role.OFFICER
         ));
@@ -75,6 +80,7 @@ public class StaffServiceIMPL implements StaffService {
                 "Ranasinghe",
                 "nimal.ranasinghe@gmail.com",
                 "2022-04-01",
+                "2022-04-01",
                 "0712345681",
                 Role.OFFICER
         ));
@@ -83,6 +89,7 @@ public class StaffServiceIMPL implements StaffService {
                 "Saman",
                 "Kumara",
                 "saman.kumara@gmail.com",
+                "2022-05-01",
                 "2022-05-01",
                 "0712345682",
                 Role.LIBRARIAN
