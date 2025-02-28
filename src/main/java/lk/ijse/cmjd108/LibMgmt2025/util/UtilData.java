@@ -31,4 +31,9 @@ public class UtilData {
     public static Time genrateCurrentTime(){
         return Time.valueOf(LocalTime.now());
     }
+
+    //Generate return date
+    public static LocalDate generateBookReturnDate(){
+        return LocalDate.now().plusDays(7);
+    }
 }

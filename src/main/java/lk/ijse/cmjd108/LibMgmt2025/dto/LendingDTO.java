@@ -12,7 +12,7 @@ public class LendingDTO implements Serializable {
     private String lendingId;
     private String member;
     private String book;
-    private String issueDate;
+    private String lendingDate;
     private String returnDate;
     private Boolean isActiveLending;
     private Long overDueDays;

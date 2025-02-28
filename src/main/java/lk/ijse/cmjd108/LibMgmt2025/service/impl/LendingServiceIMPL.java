@@ -13,6 +13,11 @@ public class LendingServiceIMPL implements LendingService {
     @Override
     public void addLendingData(LendingDTO lendingDTO) {
         lendingDTO.setLendingId(UtilData.generateLendingId());
+        lendingDTO.setLendingDate(String.valueOf(UtilData.generateTodayDate()));
+        lendingDTO.setReturnDate(String.valueOf(UtilData.generateBookReturnDate()));
+        lendingDTO.setIsActiveLending(true);
+        lendingDTO.setOverDueDays(0L);
+        lendingDTO.setFineAmount(0.0);
         System.out.println(lendingDTO);
     }
 
