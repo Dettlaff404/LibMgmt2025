@@ -61,12 +61,24 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<MemberDTO> getSelectedMember(@PathVariable String memberId) {
-        return ResponseEntity.ok(memberService.getSelectedMember(memberId));
+    @GetMapping
+    public ResponseEntity<MemberDTO> getSelectedMember(@RequestParam String memberId) {
+        if (memberId == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            return ResponseEntity.ok(memberService.getSelectedMember(memberId));
+        } catch (MemberNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
-    @GetMapping
+    @GetMapping("getallmembers")
     public ResponseEntity<List<MemberDTO>> getAllMembers() {
         return ResponseEntity.ok(memberService.getAllMembers());
     }
