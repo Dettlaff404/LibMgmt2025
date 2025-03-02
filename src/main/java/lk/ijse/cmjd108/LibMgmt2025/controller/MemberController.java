@@ -44,10 +44,21 @@ public class MemberController {
         }
     }
 
-    @PatchMapping(value = "/{memberId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateMember(@PathVariable String memberId, @RequestBody MemberDTO memberDTO){
-        memberService.updateMember(memberId, memberDTO);
-        return ResponseEntity.noContent().build();
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateMember(@RequestParam String memberId, @RequestBody MemberDTO memberDTO){
+        if (memberId == null || memberDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            memberService.updateMember(memberId, memberDTO);
+            return ResponseEntity.noContent().build();
+        } catch (MemberNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{memberId}")

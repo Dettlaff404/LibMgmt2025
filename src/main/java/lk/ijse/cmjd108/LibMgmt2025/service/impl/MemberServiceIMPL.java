@@ -3,6 +3,7 @@ package lk.ijse.cmjd108.LibMgmt2025.service.impl;
 import jakarta.transaction.Transactional;
 import lk.ijse.cmjd108.LibMgmt2025.dao.MemberDao;
 import lk.ijse.cmjd108.LibMgmt2025.dto.MemberDTO;
+import lk.ijse.cmjd108.LibMgmt2025.entities.MemberEntity;
 import lk.ijse.cmjd108.LibMgmt2025.exception.MemberNotFoundException;
 import lk.ijse.cmjd108.LibMgmt2025.service.MemberService;
 import lk.ijse.cmjd108.LibMgmt2025.util.EntityDTOConvert;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,7 +32,13 @@ public class MemberServiceIMPL implements MemberService {
 
     @Override
     public void updateMember(String memberId, MemberDTO memberDTO) {
-
+        Optional<MemberEntity> selectedMember = memberDao.findById(memberId);
+        if (!selectedMember.isPresent()){
+            throw new MemberNotFoundException("Member not found");
+        }
+        selectedMember.get().setName(memberDTO.getName());
+        selectedMember.get().setEmail(memberDTO.getEmail());
+        selectedMember.get().setMembershipDate(UtilData.generateTodayDate());
     }
 
     @Override
