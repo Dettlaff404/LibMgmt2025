@@ -1,22 +1,30 @@
 package lk.ijse.cmjd108.LibMgmt2025.service.impl;
 
+import jakarta.transaction.Transactional;
+import lk.ijse.cmjd108.LibMgmt2025.dao.MemberDao;
 import lk.ijse.cmjd108.LibMgmt2025.dto.MemberDTO;
 import lk.ijse.cmjd108.LibMgmt2025.service.MemberService;
+import lk.ijse.cmjd108.LibMgmt2025.util.EntityDTOConvert;
 import lk.ijse.cmjd108.LibMgmt2025.util.UtilData;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class MemberServiceIMPL implements MemberService {
 
+    private final MemberDao memberDao;
+    private final EntityDTOConvert entityDTOConvert;
 
     @Override
     public void saveMember(MemberDTO memberDTO) {
         memberDTO.setMemberId(UtilData.generateMemberId());
-        memberDTO.setMembershipDate(String.valueOf(UtilData.generateTodayDate()));
-        System.out.println(memberDTO);
+        memberDTO.setMembershipDate(UtilData.generateTodayDate());
+        memberDao.save(entityDTOConvert.convertMemberDTOToMemberEntity(memberDTO));
     }
 
     @Override
@@ -31,48 +39,11 @@ public class MemberServiceIMPL implements MemberService {
 
     @Override
     public MemberDTO getSelectedMember(String memberId) {
-        return new MemberDTO(
-                memberId,
-                "New Member",
-                "new.member@gmail.com",
-                "2021-01-01");
+        return null;
     }
 
     @Override
     public List<MemberDTO> getAllMembers() {
-        List<MemberDTO> memberDTOS = new ArrayList<>();
-
-        memberDTOS.add(new MemberDTO(
-                "M001",
-                "John",
-                "john@gmail.com",
-                "2021-01-01"
-        ));
-        memberDTOS.add(new MemberDTO(
-                "M002",
-                "Jane",
-                "jane@gmail.com",
-                "2021-02-01"
-        ));
-        memberDTOS.add(new MemberDTO(
-                "M003",
-                "Kamal",
-                "kamal@gmail.com",
-                "2021-03-01"
-        ));
-        memberDTOS.add(new MemberDTO(
-                "M004",
-                "Nimal",
-                "nimal@gmail.com",
-                "2021-04-01"
-        ));
-        memberDTOS.add(new MemberDTO(
-                "M005",
-                "Saman",
-                "saman@gmail.com",
-                "2021-05-01"
-        ));
-
-        return memberDTOS;
+        return null;
     }
 }
