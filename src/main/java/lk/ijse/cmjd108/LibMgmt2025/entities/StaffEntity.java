@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,7 +22,7 @@ public class StaffEntity {
     private String lastName;
     private String email;
     private String joinDate;
-    private String lastUpdate;
+    private LocalDate lastUpdate;
     private String phone;
     private Role role;
 }

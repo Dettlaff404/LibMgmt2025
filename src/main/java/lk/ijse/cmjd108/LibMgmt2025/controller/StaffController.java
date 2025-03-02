@@ -1,6 +1,7 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
 import lk.ijse.cmjd108.LibMgmt2025.dto.StaffDTO;
+import lk.ijse.cmjd108.LibMgmt2025.exception.StaffNotFoundException;
 import lk.ijse.cmjd108.LibMgmt2025.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,19 @@ public class StaffController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addStaffMember(@RequestBody StaffDTO staffDTO){
-        staffService.saveStaffMember(staffDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if (staffDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            staffService.saveStaffMember(staffDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (StaffNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping

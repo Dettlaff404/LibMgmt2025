@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,7 @@ public class StaffDTO implements Serializable {
     private String lastName;
     private String email;
     private String joinDate;
-    private String lastUpdate;
+    private LocalDate lastUpdate;
     private String phone;
     private Role role;
 }
