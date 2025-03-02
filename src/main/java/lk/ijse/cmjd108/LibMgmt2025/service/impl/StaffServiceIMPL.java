@@ -65,6 +65,6 @@ public class StaffServiceIMPL implements StaffService {
 
     @Override
     public List<StaffDTO> getAllStaffMembers() {
-        return null;
+        return entityDTOConvert.toStaffDTOList(staffDao.findAll());
     }
 }
