@@ -16,11 +16,6 @@ public class StaffController {
 
     private final StaffService staffService;
 
-    @GetMapping("health")
-    public String healthCheck(){
-        return "Staff Controller is Working";
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addStaffMember(@RequestBody StaffDTO staffDTO){
         staffService.saveStaffMember(staffDTO);

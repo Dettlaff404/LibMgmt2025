@@ -16,11 +16,6 @@ public class  BookController {
 
     private final BookService bookService;
 
-    @GetMapping("health")
-    public String healthCheck(){
-        return "Book Controller is Working";
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addBook(@RequestBody BookDTO bookDTO){
         bookService.addBook(bookDTO);

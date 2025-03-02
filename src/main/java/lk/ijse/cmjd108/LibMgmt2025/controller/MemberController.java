@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,11 +16,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-
-    @GetMapping("health")
-    public String healthCheck(){
-        return "Member Controller is Working";
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addMember(@RequestBody MemberDTO memberDTO){
