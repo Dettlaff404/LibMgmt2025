@@ -1,8 +1,19 @@
 package lk.ijse.cmjd108.LibMgmt2025.service.impl;
 
+import lk.ijse.cmjd108.LibMgmt2025.dao.BookDao;
+import lk.ijse.cmjd108.LibMgmt2025.dao.LendingDao;
+import lk.ijse.cmjd108.LibMgmt2025.dao.MemberDao;
 import lk.ijse.cmjd108.LibMgmt2025.dto.LendingDTO;
+import lk.ijse.cmjd108.LibMgmt2025.entities.BookEntity;
+import lk.ijse.cmjd108.LibMgmt2025.entities.MemberEntity;
+import lk.ijse.cmjd108.LibMgmt2025.exception.BookNotFoundException;
+import lk.ijse.cmjd108.LibMgmt2025.exception.EnoughBooksNotFoundException;
+import lk.ijse.cmjd108.LibMgmt2025.exception.MemberNotFoundException;
 import lk.ijse.cmjd108.LibMgmt2025.service.LendingService;
+import lk.ijse.cmjd108.LibMgmt2025.util.EntityDTOConvert;
+import lk.ijse.cmjd108.LibMgmt2025.util.LendingMapping;
 import lk.ijse.cmjd108.LibMgmt2025.util.UtilData;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +23,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LendingServiceIMPL implements LendingService {
 
     @Value("${perDayFine}")     //Value Injection
     private Double perDayAmount;
 
+    private final LendingMapping lendingMapping;
+    private final LendingDao lendingDao;
+    private final BookDao bookDao;
+    private final MemberDao memberDao;
+    private final EntityDTOConvert entityDTOConvert;
+
     @Override
     public void addLendingData(LendingDTO lendingDTO) {
+        //relevant book
+        //relevant member
+        String bookId = lendingDTO.getBook();
+        String memberId = lendingDTO.getMember();
+        BookEntity bookEntity = bookDao.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book Not Found"));
+        MemberEntity memberEntity = memberDao.findById(memberId).orElseThrow(() -> new MemberNotFoundException("Member Not Found"));
+
+        //check the availability
+        if (bookDao.availQty(bookId) > 0) {
+            //books are available
+
+
+        } else {
+            throw new EnoughBooksNotFoundException("Not Enough Books to Process");
+        }
+
+
         lendingDTO.setLendingId(UtilData.generateLendingId());
-        lendingDTO.setLendingDate(String.valueOf(UtilData.generateTodayDate()));
-        lendingDTO.setReturnDate(String.valueOf(UtilData.generateBookReturnDate()));
+        lendingDTO.setLendingDate(UtilData.generateTodayDate());
+        lendingDTO.setReturnDate(UtilData.generateBookReturnDate());
         lendingDTO.setIsActiveLending(true);
         lendingDTO.setOverDueDays(0L);
         lendingDTO.setFineAmount(0.0);
@@ -42,78 +77,12 @@ public class LendingServiceIMPL implements LendingService {
 
     @Override
     public LendingDTO getSelectedLendingData(String lendingId) {
-        return new LendingDTO(
-            lendingId,
-            "MemberName",
-            "BookTitle",
-            "2023-01-01",
-            "2023-01-15",
-            true,
-            5L,
-            50.0
-        );
+        return null;
     }
 
     @Override
     public List<LendingDTO> getAllLendingData() {
-        List<LendingDTO> lendingDTOList = new ArrayList<>();
-
-        lendingDTOList.add(new LendingDTO(
-            "L001",
-            "Alice",
-            "Introduction to Algorithms",
-            "2023-01-01",
-            "2023-01-15",
-            true,
-            3L,
-            15.0
-        ));
-
-        lendingDTOList.add(new LendingDTO(
-            "L002",
-            "Bob",
-            "Design Patterns",
-            "2023-02-01",
-            "2023-02-14",
-            true,
-            2L,
-            10.0
-        ));
-
-        lendingDTOList.add(new LendingDTO(
-            "L003",
-            "Charlie",
-            "Effective Java",
-            "2023-03-01",
-            "2023-03-10",
-            false,
-            0L,
-            0.0
-        ));
-
-        lendingDTOList.add(new LendingDTO(
-            "L004",
-            "David",
-            "Clean Code",
-            "2023-04-01",
-            "2023-04-12",
-            true,
-            1L,
-            5.0
-        ));
-
-        lendingDTOList.add(new LendingDTO(
-            "L005",
-            "Eve",
-            "Java Concurrency in Practice",
-            "2023-05-01",
-            "2023-05-18",
-            true,
-            4L,
-            20.0
-        ));
-
-        return lendingDTOList;
+        return null;
     }
 
     private Long calcOverDue(){

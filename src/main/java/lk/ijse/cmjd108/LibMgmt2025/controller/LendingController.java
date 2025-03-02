@@ -1,6 +1,7 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
 import lk.ijse.cmjd108.LibMgmt2025.dto.LendingDTO;
+import lk.ijse.cmjd108.LibMgmt2025.exception.LendingDataNotFoundException;
 import lk.ijse.cmjd108.LibMgmt2025.service.LendingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,16 @@ public class LendingController {
         if (lendingDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        lendingService.addLendingData(lendingDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        try {
+            lendingService.addLendingData(lendingDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (LendingDataNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping
