@@ -61,7 +61,11 @@ public class BookServiceIMPL implements BookService {
 
     @Override
     public BookDTO getSelectedBook(String bookId) {
-        return null;
+        Optional<BookEntity> foundBook = bookDao.findById(bookId);
+        if (!foundBook.isPresent()) {
+            throw new BookNotFoundException("SelectedBook Not Found");
+        }
+        return entityDTOConvert.convertBookEntityToBookDTO(bookDao.getReferenceById(bookId));
     }
 
     @Override
