@@ -1,6 +1,7 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
 import lk.ijse.cmjd108.LibMgmt2025.dto.BookDTO;
+import lk.ijse.cmjd108.LibMgmt2025.exception.BookNotFoundException;
 import lk.ijse.cmjd108.LibMgmt2025.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,16 @@ public class  BookController {
 
     @DeleteMapping
     public ResponseEntity<Void> deleteBook(@RequestParam ("bookIdKey") String bookIdValue){
-        bookService.deleteBook(bookIdValue);
-        return ResponseEntity.noContent().build();
+        try {
+            bookService.deleteBook(bookIdValue);
+            return ResponseEntity.noContent().build();
+        } catch (BookNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PatchMapping(value = "/{bookId}", consumes = MediaType.APPLICATION_JSON_VALUE)

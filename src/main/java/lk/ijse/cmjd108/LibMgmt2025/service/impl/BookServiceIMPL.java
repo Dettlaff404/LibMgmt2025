@@ -3,12 +3,15 @@ package lk.ijse.cmjd108.LibMgmt2025.service.impl;
 import jakarta.transaction.Transactional;
 import lk.ijse.cmjd108.LibMgmt2025.dao.BookDao;
 import lk.ijse.cmjd108.LibMgmt2025.dto.BookDTO;
+import lk.ijse.cmjd108.LibMgmt2025.entities.BookEntity;
+import lk.ijse.cmjd108.LibMgmt2025.exception.BookNotFoundException;
 import lk.ijse.cmjd108.LibMgmt2025.service.BookService;
 import lk.ijse.cmjd108.LibMgmt2025.util.EntityDTOConvert;
 import lk.ijse.cmjd108.LibMgmt2025.util.UtilData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +33,12 @@ public class BookServiceIMPL implements BookService {
 
     @Override
     public void deleteBook(String bookId) {
-
+        //Check Availability
+        Optional<BookEntity> foundBook = bookDao.findById(bookId);
+        if (!foundBook.isPresent()) {
+            throw new BookNotFoundException("Book Not Found");
+        }
+        bookDao.deleteById(bookId);
     }
 
     @Override
