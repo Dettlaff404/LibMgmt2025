@@ -43,7 +43,20 @@ public class BookServiceIMPL implements BookService {
 
     @Override
     public void updateBook(String bookId, BookDTO bookDTO) {
-
+        Optional<BookEntity> foundBook = bookDao.findById(bookId);
+        if (!foundBook.isPresent()) {
+            throw new BookNotFoundException("Book Not Found");
+        }
+        foundBook.get().setBookName(bookDTO.getBookName());
+        foundBook.get().setAuthor(bookDTO.getAuthor());
+        foundBook.get().setTotalQty(bookDTO.getTotalQty());
+        foundBook.get().setAvailableQty(bookDTO.getAvailableQty());
+        foundBook.get().setEdition(bookDTO.getEdition());
+        foundBook.get().setPublisher(bookDTO.getPublisher());
+        foundBook.get().setIsbn(bookDTO.getIsbn());
+        foundBook.get().setPrice(bookDTO.getPrice());
+        foundBook.get().setLastUpdateDate(UtilData.generateTodayDate());
+        foundBook.get().setLastUpdateTime(UtilData.genrateCurrentTime());
     }
 
     @Override
