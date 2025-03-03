@@ -16,4 +16,7 @@ public interface BookDao extends JpaRepository<BookEntity, String> {
     @Modifying
     @Query("UPDATE BookEntity b SET b.availableQty = b.availableQty - 1 WHERE b.bookId = :bookId AND b.availableQty > 0")
     int deductBasedOnLending(@Param("bookId") String bookId);
+    @Modifying
+    @Query("UPDATE BookEntity b SET b.availableQty = b.availableQty + 1 WHERE b.bookId = :bookId")
+    void addBookBasedBookHandOver(@Param("bookId") String bookId);
 }

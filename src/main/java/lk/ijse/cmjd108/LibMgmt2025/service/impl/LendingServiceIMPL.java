@@ -5,11 +5,9 @@ import lk.ijse.cmjd108.LibMgmt2025.dao.LendingDao;
 import lk.ijse.cmjd108.LibMgmt2025.dao.MemberDao;
 import lk.ijse.cmjd108.LibMgmt2025.dto.LendingDTO;
 import lk.ijse.cmjd108.LibMgmt2025.entities.BookEntity;
+import lk.ijse.cmjd108.LibMgmt2025.entities.LendingEntity;
 import lk.ijse.cmjd108.LibMgmt2025.entities.MemberEntity;
-import lk.ijse.cmjd108.LibMgmt2025.exception.BookNotFoundException;
-import lk.ijse.cmjd108.LibMgmt2025.exception.DataPersistException;
-import lk.ijse.cmjd108.LibMgmt2025.exception.EnoughBooksNotFoundException;
-import lk.ijse.cmjd108.LibMgmt2025.exception.MemberNotFoundException;
+import lk.ijse.cmjd108.LibMgmt2025.exception.*;
 import lk.ijse.cmjd108.LibMgmt2025.service.LendingService;
 import lk.ijse.cmjd108.LibMgmt2025.util.EntityDTOConvert;
 import lk.ijse.cmjd108.LibMgmt2025.util.LendingMapping;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,7 +75,17 @@ public class LendingServiceIMPL implements LendingService {
     @Override
     public void handOverBook(String lendingId) {
         //Todo: Check the details of the lending record - DB
+        LendingEntity foundLending = lendingDao.findById(lendingId).orElseThrow(() -> new LendingDataNotFoundException("Lending Record Not Found"));
         //Todo: Check overdue and fine
+        LocalDate returnDate = foundLending.getReturnDate();
+        Long overDue = calcOverDue(returnDate); //overdue date count
+        Double fineAmount = calcFine(overDue);        //fine amount
+
+        foundLending.setOverDueDays(overDue);
+        foundLending.setFineAmount(fineAmount);
+        foundLending.setIsActiveLending(false);
+        //Update the book qty against the bookId
+        bookDao.addBookBasedBookHandOver(foundLending.getBook().getBookId());
 
     }
 
@@ -97,12 +104,10 @@ public class LendingServiceIMPL implements LendingService {
         return null;
     }
 
-    private Long calcOverDue(){
-        //Today
+    private Long calcOverDue(LocalDate returnDate){
         LocalDate today = UtilData.generateTodayDate();
-        LocalDate returnDate = UtilData.generateBookReturnDateCalc();
         if (returnDate.isBefore(today)){
-            return ChronoUnit.DAYS.between(today, returnDate);
+            return ChronoUnit.DAYS.between(today,returnDate);
         }
         return 0L;
     }
