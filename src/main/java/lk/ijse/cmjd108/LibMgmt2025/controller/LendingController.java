@@ -1,7 +1,8 @@
 package lk.ijse.cmjd108.LibMgmt2025.controller;
 
+import jakarta.transaction.Transactional;
 import lk.ijse.cmjd108.LibMgmt2025.dto.LendingDTO;
-import lk.ijse.cmjd108.LibMgmt2025.exception.LendingDataNotFoundException;
+import lk.ijse.cmjd108.LibMgmt2025.exception.*;
 import lk.ijse.cmjd108.LibMgmt2025.service.LendingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/lendings")
 @RequiredArgsConstructor
+@Transactional
 public class LendingController {
 
     private final LendingService lendingService;
@@ -25,10 +27,13 @@ public class LendingController {
         try {
             lendingService.addLendingData(lendingDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (LendingDataNotFoundException e) {
+        } catch (BookNotFoundException | MemberNotFoundException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }catch (Exception e) {
+        }catch (DataPersistException | EnoughBooksNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

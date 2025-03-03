@@ -49,7 +49,14 @@ public class LendingServiceIMPL implements LendingService {
         if (bookDao.availQty(bookId) > 0) {
             //books are available
             if (bookDao.deductBasedOnLending(bookId) > 0) {
-
+                //process the lending
+                lendingDTO.setLendingId(UtilData.generateLendingId());
+                lendingDTO.setLendingDate(UtilData.generateTodayDate());
+                lendingDTO.setReturnDate(UtilData.generateBookReturnDate());
+                lendingDTO.setIsActiveLending(true);
+                lendingDTO.setOverDueDays(0L);
+                lendingDTO.setFineAmount(0.0);
+                lendingDao.save(LendingMapping.toLendingEntity(lendingDTO, bookEntity, memberEntity));
             }else {
                 throw new DataPersistException("Cannot Update book data with 0 available count");
             }
