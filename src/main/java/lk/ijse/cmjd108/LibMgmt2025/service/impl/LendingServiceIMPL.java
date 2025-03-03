@@ -74,9 +74,7 @@ public class LendingServiceIMPL implements LendingService {
 
     @Override
     public void handOverBook(String lendingId) {
-        //Todo: Check the details of the lending record - DB
         LendingEntity foundLending = lendingDao.findById(lendingId).orElseThrow(() -> new LendingDataNotFoundException("Lending Record Not Found"));
-        //Todo: Check overdue and fine
         LocalDate returnDate = foundLending.getReturnDate();
         Long overDue = calcOverDue(returnDate); //overdue date count
         Double fineAmount = calcFine(overDue);        //fine amount
@@ -91,6 +89,13 @@ public class LendingServiceIMPL implements LendingService {
 
     @Override
     public void deleteLendingData(String lendingId) {
+        //validating the id
+        LendingEntity foundLending = lendingDao.findById(lendingId).orElseThrow(() -> new LendingDataNotFoundException("Lending Record Not Found"));
+        lendingDao.deleteById(lendingId);
+        //add the book when deleting the record
+        if (foundLending.getIsActiveLending()){
+            bookDao.addBookBasedBookHandOver(foundLending.getBook().getBookId());
+        }
 
     }
 
