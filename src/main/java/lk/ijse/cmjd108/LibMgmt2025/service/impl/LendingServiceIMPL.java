@@ -113,7 +113,7 @@ public class LendingServiceIMPL implements LendingService {
     private Long calcOverDue(LocalDate returnDate){
         LocalDate today = UtilData.generateTodayDate();
         if (returnDate.isBefore(today)){
-            return ChronoUnit.DAYS.between(today,returnDate);
+            return ChronoUnit.DAYS.between(returnDate,today);
         }
         return 0L;
     }
