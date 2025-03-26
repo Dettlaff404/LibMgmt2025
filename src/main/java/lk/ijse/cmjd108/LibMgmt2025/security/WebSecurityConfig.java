@@ -60,7 +60,8 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/v1/auth/**").permitAll()
-                                .requestMatchers("/api/v1/books/getallbooks").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/books").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/books").hasAnyRole("OFFICER,LIBRARIAN")
                                 .anyRequest().authenticated());
         http.authenticationProvider(daoAuthenticationProvider());
         http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);

@@ -23,6 +23,7 @@ public class  BookController {
     private final BookService bookService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> addBook(@RequestBody BookDTO bookDTO){
         logger.info("Call the addBook with param {}", bookDTO);
         if (bookDTO == null) {
@@ -33,6 +34,7 @@ public class  BookController {
     }
 
     @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteBook(@RequestParam ("bookIdKey") String bookIdValue){
         if (bookIdValue == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -83,7 +85,6 @@ public class  BookController {
     }
 
     @GetMapping("getallbooks")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
